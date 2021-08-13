@@ -1,10 +1,17 @@
 import React, { useState } from "react";
 import Hamburger from "hamburger-react";
-
-const HamburgerComponent = () => {
-  const [isOpen, setOpen] = useState(false);
-
-  return <Hamburger toggled={isOpen} toggle={setOpen} />;
+import { connect } from "react-redux";
+import { toggleHamburger } from "../actions";
+const HamburgerComponent = (props) => {
+  // console.log(props);
+  return <Hamburger toggled={props.isOpen} toggle={props.toggleHamburger} />;
 };
 
-export default HamburgerComponent;
+const mapStateToProps = (state) => {
+  return {
+    isOpen: state.isOpen,
+  };
+};
+export default connect(mapStateToProps, { toggleHamburger })(
+  HamburgerComponent
+);
