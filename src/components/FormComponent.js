@@ -2,22 +2,22 @@ import React from 'react';
 import { Button, Modal, Form } from 'semantic-ui-react';
 import { makeStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
-// import Slider from '@material-ui/core/Slider';
-
-const Slider = window['rc-slider'];
+import Slider, { Range } from 'rc-slider';
+import 'rc-slider/assets/index.css';
 
 const handle = (smileys, stopPoints) => {
     return props => {
       const style = {
           left: `${props.offset}%`
       };
-
+      let index = stopPoints.findIndex(threshold => props.value < threshold);
       const smiley =
-          smileys[stopPoints.findIndex(threshold => props.value < threshold)];
+          smileys[index];
 
       return (
           <div style={style} className="smiley-handle">
               {smiley}
+              <label style={{fontSize: "20px", marginLeft: "10px"}}>{index + 1}</label>
           </div>
       );
    }
@@ -30,7 +30,7 @@ class SmileySlider extends React.PureComponent {
             <Slider
               min={this.props.minValue}
               max={this.props.maxValue}
-              defaultValue={this.props.minValue}
+              defaultValue={this.props.defaultVal}
               handle={sliderHandle}
               step={this.props.step || 1}
               onAfterChange={this.props.handleChange}
@@ -41,107 +41,33 @@ class SmileySlider extends React.PureComponent {
 
 class Sliders extends React.PureComponent {
   render() {
-    // Ensure last stop point is > maxValue
-    // Find codepoints with codePointAt() https://medium.com/reactnative/emojis-in-javascript-f693d0eb79fb
     return (
       <div className="text-center">
        <SmileySlider
          smileys={[
+            String.fromCodePoint(128542),
+            String.fromCodePoint(128542),
+            String.fromCodePoint(128528),
             String.fromCodePoint(128528),
             String.fromCodePoint(128578),
+            String.fromCodePoint(128578),
             String.fromCodePoint(128515),
+            String.fromCodePoint(128515),
+            String.fromCodePoint(128525),
             String.fromCodePoint(128525)
           ]}
          stopPoints={[
-           2, 3, 4, 5
+           2, 3, 4, 5, 6, 7, 8, 9, 10, 11
          ]}
          minValue={1}
-         maxValue={4}
+         maxValue={10}
+         defaultVal={1}
         />
         
       </div>
     );
   }
 }
-
-
-// const useStyles = makeStyles((theme) => ({
-//   root: {
-//     width: 300,
-//   },
-//   margin: {
-//     height: theme.spacing(3),
-//   },
-// }));
-
-// const marks = [
-//   {
-//     value: 1,
-//     label: '1',
-//   },
-//   {
-//     value: 2,
-//     label: '2',
-//   },
-//   {
-//     value: 3,
-//     label: '3',
-//   },
-//   {
-//     value: 4,
-//     label: '4',
-//   },
-//   {
-//     value: 5,
-//     label: '5',
-//   },
-//   {
-//     value: 6,
-//     label: '6',
-//   },
-//   {
-//     value: 7,
-//     label: '7',
-//   },
-//   {
-//     value: 8,
-//     label: '8',
-//   },
-//   {
-//     value: 9,
-//     label: '9',
-//   },
-//   {
-//     value: 10,
-//     label: '10',
-//   },
-// ];
-
-// function valuetext(value) {
-//   return `${value}`;
-// }
-
-// function DiscreteSlider() {
-//   const classes = useStyles();
-
-//   return (
-//     <div className={classes.root}>
-//       <Typography id="discrete-slider-always" gutterBottom>
-//         Enter the rating
-//       </Typography>
-//       <Slider
-//         defaultValue={5}
-//         getAriaValueText={valuetext}
-//         min={1}
-//         max={10}
-//         aria-labelledby="discrete-slider-always"
-//         step={1}
-//         marks={marks}
-//         valueLabelDisplay="on"
-//       />
-//     </div>
-//   );
-// }
 
 function FormComponent() {
   const [open, setOpen] = React.useState(false)
@@ -155,24 +81,24 @@ function FormComponent() {
     >
       <Modal.Header>Submit your Mood Rating</Modal.Header>
       <Form>
-          {/* <DiscreteSlider  style={{width: "90%", margin: "0 auto", align: "center"}}>
-
-          </DiscreteSlider> */}
-          <Sliders></Sliders>
-        <Form.Field style={{width: "90%", margin: "0 auto"}}>
-        <label>Name</label>
+      <Form.Field style={{width: "90%", margin: "10px auto"}}>
+        <label style={{fontFamily: "Verdana"}}>Rate</label>
+        <Sliders></Sliders>
+        </Form.Field>
+        <Form.Field style={{width: "90%", margin: "15px auto"}}>
+        <label style={{fontFamily: "Verdana"}}>Name</label>
         <input placeholder='Name'/>
         </Form.Field>
-        <Form.Field style={{width: "90%", margin: "0 auto"}}>
-        <label>Email ID</label>
+        <Form.Field style={{width: "90%", margin: "15px auto"}}>
+        <label style={{fontFamily: "Verdana"}}>Email ID</label>
         <input placeholder='Email ID' />
         </Form.Field>
-        <Form.Field style={{width: "90%", margin: "0 auto"}}>
-            <label>Rating Justification</label>
+        <Form.Field style={{width: "90%", margin: "15px auto"}}>
+            <label style={{fontFamily: "Verdana"}}>Rating Justification</label>
             <textarea placeholder='Justify your Rating' />
         </Form.Field>
-        <Form.Field style={{width: "90%", margin: "0 auto"}}>
-            <label>Hashtags</label>
+        <Form.Field style={{width: "90%", margin: "15px auto"}}>
+            <label style={{fontFamily: "Verdana"}}>Hashtags</label>
             <input placeholder='Enter some hashtags' />
             <br />
         </Form.Field>
