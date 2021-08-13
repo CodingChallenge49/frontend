@@ -10,21 +10,29 @@ import {
   Segment,
   Sidebar,
 } from "semantic-ui-react";
+import HamburgerComponent from "./HamburgerComponent";
 
 const SidebarComponent = () => {
   const [visible, setVisible] = React.useState(false);
 
   return (
+    <div>
     <Grid columns={2}>
-      <Grid.Column>
-        <Checkbox
+      {/* <Grid.Column width={1} style={{zIndex:2}}>
+        {/* <Checkbox
           checked={visible}
           label={{ children: <code>visible</code> }}
           onChange={(e, data) => setVisible(data.checked)}
-        />
-      </Grid.Column>
+        /> 
+      </Grid.Column> */}
 
       <Grid.Column>
+        <HamburgerComponent></HamburgerComponent>
+        {/* <Checkbox
+          checked={visible}
+          label={{ children: <code>visible</code> }}
+          onChange={(e, data) => setVisible(data.checked)}
+        />  */}
         <Sidebar.Pushable as={Segment}>
           <Sidebar
             as={Menu}
@@ -38,27 +46,21 @@ const SidebarComponent = () => {
           >
             <Menu.Item as="a">
               <Icon name="home" />
-              Home
+              Live Feed
             </Menu.Item>
             <Menu.Item as="a">
               <Icon name="gamepad" />
-              Games
+              Dashboard
             </Menu.Item>
             <Menu.Item as="a">
               <Icon name="camera" />
-              Channels
+              Rate your Mood
             </Menu.Item>
           </Sidebar>
-
-          <Sidebar.Pusher dimmed={visible}>
-            <Segment basic>
-              <Header as="h3">Application Content</Header>
-              <Image src="https://react.semantic-ui.com/images/wireframe/paragraph.png" />
-            </Segment>
-          </Sidebar.Pusher>
         </Sidebar.Pushable>
       </Grid.Column>
     </Grid>
+    </div>
   );
 };
 
