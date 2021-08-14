@@ -6,6 +6,8 @@ import "rc-slider/assets/index.css";
 import Hashtag from "./Hashtag";
 import axios from "axios";
 
+import { fetchLiveFeed } from "../actions";
+
 const handle = (smileys, stopPoints) => {
   return (props) => {
     const style = {
@@ -93,7 +95,21 @@ function FormComponent(props) {
     } else {
       hashtag = props.exampleReducer.results[0];
     }
+
+    var today = new Date();
+    var date =
+      today.getFullYear() +
+      "-" +
+      (today.getMonth() + 1) +
+      "-" +
+      today.getDate();
+    var time =
+      today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
+
+    var dateTime = date + " " + time;
+
     const formData = {
+      dateTime,
       name,
       email,
       rating,
@@ -101,7 +117,7 @@ function FormComponent(props) {
       hashtag,
     };
     console.log(formData);
-    await axios.post("formdata.json", formData);
+    await axios.post("http://localhost:8080/saveMoodHistory", formData);
   }
   return (
     <Modal

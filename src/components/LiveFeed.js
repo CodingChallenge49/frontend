@@ -35,7 +35,7 @@ const LiveFeed = (props) => {
         ? props.liveFeedData[0].map((eachData) => {
             return (
               <Card style={{ display: "inline" }} key={eachData.id}>
-                <Card.Content header={eachData["name"]} />
+                <Card.Content header={eachData.name} />
                 <Card.Content description={eachData.moodJustification} />
                 <Card.Content extra>
                   <Icon name="user" />

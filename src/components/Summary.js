@@ -63,7 +63,17 @@ class Summary extends React.Component {
     };
   }
   async helper() {
-    const result = await axios.get("piechart.json");
+    var today = new Date();
+    var date =
+      today.getFullYear() +
+      "-" +
+      (today.getMonth() + 1) +
+      "-" +
+      today.getDate();
+    date = "2021-08-15";
+    const result = await axios.get(
+      `http://localhost:8080/getCountByRatingGroup/${date}`
+    );
     let charData = [["call", "no"]];
     for (let column of result.data) {
       charData.push([column.rating, column.numPeople]);

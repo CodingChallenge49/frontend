@@ -20,7 +20,7 @@ const selectedNav = (option = "live", action) => {
 
 const liveFeed = (data = [], action) => {
   if (action.type == "LIVE_FEED") {
-    return [...data, action.payload];
+    return [action.payload];
   }
   return data;
 };
