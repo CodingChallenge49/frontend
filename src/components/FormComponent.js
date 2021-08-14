@@ -1,77 +1,108 @@
-import React from 'react';
-import { Button, Modal, Form } from 'semantic-ui-react';
-import { makeStyles } from '@material-ui/core/styles';
-import Typography from '@material-ui/core/Typography';
-import Slider, { Range } from 'rc-slider';
-import 'rc-slider/assets/index.css';
+import React, { useRef, useState } from "react";
+import { Button, Modal, Form, Grid, GridColumn } from "semantic-ui-react";
+import { connect } from "react-redux";
+import Slider, { Range } from "rc-slider";
+import "rc-slider/assets/index.css";
+import Hashtag from "./Hashtag";
+import axios from "axios";
 
 const handle = (smileys, stopPoints) => {
-    return props => {
-      const style = {
-          left: `${props.offset}%`
-      };
-      let index = stopPoints.findIndex(threshold => props.value < threshold);
-      const smiley =
-          smileys[index];
+  return (props) => {
+    const style = {
+      left: `${props.offset}%`,
+    };
+    let index = stopPoints.findIndex((threshold) => props.value < threshold);
+    const smiley = smileys[index];
 
-      return (
-          <div style={style} className="smiley-handle">
-              {smiley}
-              <label style={{fontSize: "20px", marginLeft: "10px"}}>{index + 1}</label>
-          </div>
-      );
-   }
+    return (
+      <div style={style} className="smiley-handle">
+        {smiley}
+        <label style={{ fontSize: "20px", marginLeft: "10px" }}>
+          {index + 1}
+        </label>
+      </div>
+    );
+  };
 };
 
 class SmileySlider extends React.PureComponent {
-    render() {
-        const sliderHandle = handle(this.props.smileys, this.props.stopPoints);
-        return (
-            <Slider
-              min={this.props.minValue}
-              max={this.props.maxValue}
-              defaultValue={this.props.defaultVal}
-              handle={sliderHandle}
-              step={this.props.step || 1}
-              onAfterChange={this.props.handleChange}
-             />
-        );
-    }
+  // constructor(props){
+  //   super(props)
+  //   this.prio
+  // }
+  render() {
+    const sliderHandle = handle(this.props.smileys, this.props.stopPoints);
+    return (
+      <Slider
+        min={this.props.minValue}
+        max={this.props.maxValue}
+        defaultValue={this.props.defaultVal}
+        handle={sliderHandle}
+        step={this.props.step || 1}
+        onAfterChange={this.props.handleChange}
+        onChange={(e) => {
+          this.props.setRate(e);
+        }}
+      />
+    );
+  }
 }
 
 class Sliders extends React.PureComponent {
   render() {
     return (
       <div className="text-center">
-       <SmileySlider
-         smileys={[
-            String.fromCodePoint(128542),
+        <SmileySlider
+          smileys={[
+            String.fromCodePoint(128557),
+            String.fromCodePoint(128546),
             String.fromCodePoint(128542),
             String.fromCodePoint(128528),
-            String.fromCodePoint(128528),
-            String.fromCodePoint(128578),
             String.fromCodePoint(128578),
             String.fromCodePoint(128515),
-            String.fromCodePoint(128515),
+            String.fromCodePoint(128522),
+            String.fromCodePoint(128516),
+            String.fromCodePoint(128519),
             String.fromCodePoint(128525),
-            String.fromCodePoint(128525)
           ]}
-         stopPoints={[
-           2, 3, 4, 5, 6, 7, 8, 9, 10, 11
-         ]}
-         minValue={1}
-         maxValue={10}
-         defaultVal={1}
+          stopPoints={[2, 3, 4, 5, 6, 7, 8, 9, 10, 11]}
+          minValue={1}
+          maxValue={10}
+          defaultVal={1}
+          setRate={this.props.setRate}
         />
-        
       </div>
     );
   }
 }
 
-function FormComponent() {
-  const [open, setOpen] = React.useState(false)
+function FormComponent(props) {
+  const [open, setOpen] = React.useState(false);
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [rating, setRating] = useState(1);
+  const [moodJustification, setMoodJustification] = useState("");
+  const [hashtag, setHashtag] = useState("");
+  // console.log(rating);
+  const ref = React.createRef();
 
+  async function postData() {
+    let hashtag = null;
+    if (props.exampleReducer.results.length === 0) {
+      hashtag = props.exampleReducer.value;
+    } else {
+      hashtag = props.exampleReducer.results[0];
+    }
+    const formData = {
+      name,
+      email,
+      rating,
+      moodJustification,
+      hashtag,
+    };
+    console.log(formData);
+    await axios.post("formdata.json", formData);
+  }
   return (
     <Modal
       onClose={() => setOpen(false)}
@@ -79,44 +110,80 @@ function FormComponent() {
       open={open}
       trigger={<Button>Rate your Mood</Button>}
     >
-      <Modal.Header>Submit your Mood Rating</Modal.Header>
+      <Modal.Header style={{ fontFamily: "Roboto Slab" }}>
+        Submit your Mood Rating
+      </Modal.Header>
       <Form>
-      <Form.Field style={{width: "90%", margin: "10px auto"}}>
-        <label style={{fontFamily: "Verdana"}}>Rate</label>
-        <Sliders></Sliders>
+        <Form.Field style={{ width: "90%", margin: "10px auto" }}>
+          <label style={{ fontFamily: "Verdana" }}>Rate</label>
+          <Sliders setRate={setRating}></Sliders>
         </Form.Field>
-        <Form.Field style={{width: "90%", margin: "15px auto"}}>
-        <label style={{fontFamily: "Verdana"}}>Name</label>
-        <input placeholder='Name'/>
+
+        <div className="two fields">
+          <Form.Field
+            style={{
+              width: "40%",
+              margin: "15px",
+              marginLeft: "auto",
+              marginRight: "auto",
+            }}
+          >
+            <label style={{ fontFamily: "Verdana" }}>Name</label>
+            <input
+              placeholder="Name"
+              onChange={(e) => setName(e.target.value)}
+            />
+          </Form.Field>
+          <Form.Field
+            style={{
+              width: "40%",
+              margin: "15px",
+              marginLeft: "auto",
+              marginRight: "auto",
+            }}
+          >
+            <label style={{ fontFamily: "Verdana" }}>Email ID</label>
+            <input
+              placeholder="Email ID"
+              onChange={(e) => setEmail(e.target.value)}
+            />
+          </Form.Field>
+        </div>
+
+        <Form.Field style={{ width: "90%", margin: "15px auto" }}>
+          <label style={{ fontFamily: "Verdana" }}>Rating Justification</label>
+          <textarea
+            placeholder="Justify your Rating"
+            onChange={(e) => setMoodJustification(e.target.value)}
+          />
         </Form.Field>
-        <Form.Field style={{width: "90%", margin: "15px auto"}}>
-        <label style={{fontFamily: "Verdana"}}>Email ID</label>
-        <input placeholder='Email ID' />
+        <Form.Field style={{ width: "90%", margin: "15px auto" }}>
+          <label style={{ fontFamily: "Verdana" }}>Hashtags</label>
+          <Hashtag />
         </Form.Field>
-        <Form.Field style={{width: "90%", margin: "15px auto"}}>
-            <label style={{fontFamily: "Verdana"}}>Rating Justification</label>
-            <textarea placeholder='Justify your Rating' />
-        </Form.Field>
-        <Form.Field style={{width: "90%", margin: "15px auto"}}>
-            <label style={{fontFamily: "Verdana"}}>Hashtags</label>
-            <input placeholder='Enter some hashtags' />
-            <br />
-        </Form.Field>
-        </Form>
+      </Form>
       <Modal.Actions>
-        <Button color='black' onClick={() => setOpen(false)}>
+        <Button color="black" onClick={() => setOpen(false)}>
           Cancel
         </Button>
         <Button
           content="Submit"
-          labelPosition='right'
-          icon='checkmark'
-          onClick={() => setOpen(false)}
+          labelPosition="right"
+          icon="checkmark"
+          onClick={(e) => {
+            setOpen(false);
+            postData();
+          }}
           positive
         />
       </Modal.Actions>
     </Modal>
-  )
+  );
 }
 
-export default FormComponent;
+const mapStateToProps = (state) => {
+  return {
+    exampleReducer: state.exampleReducer,
+  };
+};
+export default connect(mapStateToProps)(FormComponent);

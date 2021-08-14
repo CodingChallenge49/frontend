@@ -9,6 +9,8 @@ import LiveFeed from "./components/LiveFeed";
 import FormComponent from "./components/FormComponent";
 import SidebarComponent from "./components/SidebarComponent";
 import reducers from "./reducers";
+import thunk from "redux-thunk";
+import Hashtag from "./components/Hashtag";
 
 // ReactDOM.render(
 //   <React.StrictMode>
@@ -21,7 +23,7 @@ import reducers from "./reducers";
 // );
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
-const store = createStore(reducers, composeEnhancers(applyMiddleware()));
+const store = createStore(reducers, composeEnhancers(applyMiddleware(thunk)));
 
 ReactDOM.render(
   <Provider store={store}>
