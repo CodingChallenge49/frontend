@@ -1,12 +1,10 @@
-import React, { useRef, useState } from "react";
-import { Button, Modal, Form, Grid, GridColumn } from "semantic-ui-react";
+import React, { useState } from "react";
+import { Button, Modal, Form } from "semantic-ui-react";
 import { connect } from "react-redux";
-import Slider, { Range } from "rc-slider";
+import Slider from "rc-slider";
 import "rc-slider/assets/index.css";
 import Hashtag from "./Hashtag";
 import axios from "axios";
-
-import { fetchLiveFeed } from "../actions";
 
 const handle = (smileys, stopPoints) => {
   return (props) => {

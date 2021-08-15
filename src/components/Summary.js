@@ -1,8 +1,8 @@
 import axios from "axios";
 import React from "react";
-import ReactDOM from "react-dom";
 import Chart from "react-google-charts";
 import { Icon, Label, Menu } from "semantic-ui-react";
+
 const colors = [
   "red",
   "orange",
@@ -16,6 +16,7 @@ const colors = [
   "pink",
   "brown",
 ];
+
 function getColor() {
   return colors[Math.floor(Math.random() * colors.length)];
 }
