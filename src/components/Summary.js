@@ -110,9 +110,9 @@ class Summary extends React.Component {
         <h1>Trending Hashtags</h1>
         <Menu compact>
           {this.state.hashtag !== undefined ? (
-            this.state.hashtag.map((eachHashtag) => {
+            this.state.hashtag.map((eachHashtag, index) => {
               return (
-                <Menu.Item as="a" size="big">
+                <Menu.Item as="a" size="big" key={index}>
                   <Icon name="hashtag" /> {eachHashtag.hashtag}
                   <Label color={getColor()} floating>
                     {eachHashtag.count}

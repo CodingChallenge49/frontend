@@ -89,12 +89,7 @@ function FormComponent(props) {
   const ref = React.createRef();
 
   async function postData() {
-    let hashtag = null;
-    if (props.exampleReducer.results.length === 0) {
-      hashtag = props.exampleReducer.value;
-    } else {
-      hashtag = props.exampleReducer.results[0];
-    }
+    let hashtag = props.exampleReducer.value;
 
     var today = new Date();
     var date =
