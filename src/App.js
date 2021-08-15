@@ -23,6 +23,7 @@ const mapStateToProps = (state) => {
   //this is that global state
   return { isOpen: state.isOpen };
 };
+
 //we are first connecting it using that connect
 export default connect(mapStateToProps)(App);
 //connect contains to parameters
