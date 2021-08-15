@@ -60,9 +60,10 @@ class Summary extends React.Component {
     super(props);
     this.state = {
       columns: [[]],
+      hastag: [],
     };
   }
-  async helper() {
+  async dataLoader() {
     var today = new Date();
     var date =
       today.getFullYear() +
@@ -71,6 +72,7 @@ class Summary extends React.Component {
       "-" +
       today.getDate();
     date = "2021-08-15";
+    //For PieChart
     const result = await axios.get(
       `http://localhost:8080/getCountByRatingGroup/${date}`
     );
@@ -78,15 +80,21 @@ class Summary extends React.Component {
     for (let column of result.data) {
       charData.push([column.rating, column.numPeople]);
     }
-    this.setState({ columns: charData });
+
+    //For HashTags
+    const getHashtags = await axios.get(
+      "http://localhost:8080/getCountByHashtag"
+    );
+    this.setState({ hashtag: getHashtags.data, columns: charData });
   }
   componentDidMount() {
-    this.helper();
+    this.dataLoader();
   }
   state = {
     chartImageURI: "",
   };
   render() {
+    console.log(this.state.hashtag);
     return (
       <div className="App">
         <h1>Mood Summary of the Day!!</h1>
@@ -101,16 +109,20 @@ class Summary extends React.Component {
         />
         <h1>Trending Hashtags</h1>
         <Menu compact>
-          {colors.map((eachcolor) => {
-            return (
-              <Menu.Item as="a" size="big">
-                <Icon name="hashtag" /> {eachcolor}
-                <Label color={getColor()} floating>
-                  22
-                </Label>
-              </Menu.Item>
-            );
-          })}
+          {this.state.hashtag !== undefined ? (
+            this.state.hashtag.map((eachHashtag) => {
+              return (
+                <Menu.Item as="a" size="big">
+                  <Icon name="hashtag" /> {eachHashtag.hashtag}
+                  <Label color={getColor()} floating>
+                    {eachHashtag.count}
+                  </Label>
+                </Menu.Item>
+              );
+            })
+          ) : (
+            <div></div>
+          )}
         </Menu>
       </div>
     );
