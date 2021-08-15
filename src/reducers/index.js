@@ -7,19 +7,19 @@ const initialState = {
 };
 //first initialization should be provided
 const showSidebar = (isOpen = false, action) => {
-  if (action.type == "TOGGLE_SIDEBAR") return action.payload;
+  if (action.type === "TOGGLE_SIDEBAR") return action.payload;
   return isOpen;
 };
 
 const selectedNav = (option = "live", action) => {
-  if (action.type == "SELECT_NAV_OPTION") {
+  if (action.type === "SELECT_NAV_OPTION") {
     return action.payload;
   }
   return option;
 };
 
 const liveFeed = (data = [], action) => {
-  if (action.type == "LIVE_FEED") {
+  if (action.type === "LIVE_FEED") {
     return [action.payload];
   }
   return data;

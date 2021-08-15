@@ -1,11 +1,7 @@
 import React from "react";
 import {
-  Button,
-  Checkbox,
   Grid,
-  Header,
   Icon,
-  Image,
   Menu,
   Segment,
   Sidebar,

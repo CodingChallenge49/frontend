@@ -5,7 +5,7 @@ import { fetchLiveFeed } from "../actions";
 
 const displayLiveFeed = (data) => {
   console.log(data[0]);
-  if (data[0] != undefined) {
+  if (data[0] !== undefined) {
     console.log(11);
     return data[0].forEach((eachData) => {
       return (

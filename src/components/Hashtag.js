@@ -13,28 +13,6 @@ const source = _.times(5, () => ({
   price: faker.finance.amount(0, 100, 2, "$"),
 }));
 
-// const initialState = {
-//   loading: false,
-//   results: [],
-//   value: "",
-// };
-
-// function exampleReducer(state, action) {
-//   switch (action.type) {
-//     case "CLEAN_QUERY":
-//       return initialState;
-//     case "START_SEARCH":
-//       return { ...state, loading: true, value: action.query };
-//     case "FINISH_SEARCH":
-//       return { ...state, loading: false, results: action.results };
-//     case "UPDATE_SELECTION":
-//       return { ...state, value: action.selection };
-
-//     default:
-//       throw new Error();
-//   }
-// }
-
 function Hashtag(props) {
   const timeoutRef = React.useRef();
   const handleSearchChange = React.useCallback((e, data) => {
@@ -70,18 +48,6 @@ function Hashtag(props) {
         />
       </Grid.Column>
 
-      {/* <Grid.Column width={10}>
-        <Segment>
-          <Header>State</Header>
-          <pre style={{ overflowX: "auto" }}>
-            {JSON.stringify({ loading, results, value }, null, 2)}
-          </pre>
-          <Header>Options</Header>
-          <pre style={{ overflowX: "auto" }}>
-            {JSON.stringify(source, null, 2)}
-          </pre>
-        </Segment>
-      </Grid.Column> */}
     </Grid>
   );
 }

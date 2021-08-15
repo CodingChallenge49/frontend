@@ -1,6 +1,5 @@
 import axios from "axios";
 import React from "react";
-import ReactDOM from "react-dom";
 import Chart from "react-google-charts";
 import { Icon, Label, Menu } from "semantic-ui-react";
 const colors = [

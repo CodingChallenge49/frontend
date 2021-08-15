@@ -5,22 +5,8 @@ import { Provider } from "react-redux";
 import "./index.css";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
-import LiveFeed from "./components/LiveFeed";
-import FormComponent from "./components/FormComponent";
-import SidebarComponent from "./components/SidebarComponent";
 import reducers from "./reducers";
 import thunk from "redux-thunk";
-import Hashtag from "./components/Hashtag";
-
-// ReactDOM.render(
-//   <React.StrictMode>
-//     {/* <App /> */}
-//     <SidebarComponent></SidebarComponent>
-//     {/* <LiveFeed></LiveFeed> */}
-//     {/* <FormComponent></FormComponent> */}
-//   </React.StrictMode>,
-//   document.getElementById("root")
-// );
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 const store = createStore(reducers, composeEnhancers(applyMiddleware(thunk)));

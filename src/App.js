@@ -1,15 +1,11 @@
-import logo from "./logo.svg";
 import "./App.css";
 import SidebarComponent from "./components/SidebarComponent";
-import FormComponent from "./components/FormComponent";
-import LiveFeed from "./components/LiveFeed";
 import { connect } from "react-redux";
-import HamburgerComponent from "./components/HamburgerComponent";
 
 function App(props) {
   // console.log(props.isOpen);
   let display = null;
-  if (props.isOpen == true) {
+  if (props.isOpen === true) {
     display = <SidebarComponent />;
   }
   // console.log(display);
